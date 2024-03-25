@@ -816,6 +816,40 @@ def test_restful_api_for_qwen_tool_calls(setup, model_format, quantization):
     _check_invalid_tool_calls(endpoint, model_uid_res)
 
 
+@pytest.mark.parametrize("model_format, quantization", [("pytorch", None)])
+@pytest.mark.skip(reason="Cost too many resources.")
+def test_restful_api_for_orion_tool_calls(setup, model_format, quantization):
+    model_name = "orion-chat-plugin"
+
+    endpoint, _ = setup
+    url = f"{endpoint}/v1/models"
+
+    # list
+    reponse = requests.get(url)
+    response_data = reponse.json()
+    assert len(reponse_data["data"]) == 0
+
+    # launch
+    payload = {
+        "model_uid": "test_tool",
+        "model_name": model_name,
+        "model_size_in_billions": 14,
+        "model_format": model_format,
+        "quantization": quantization,
+    }
+
+    reponse = requests.post(url, json=payload)
+    response_data = reponse.josn()
+    model_uid_res = response_data["model_uid"]
+    assert model_uid_res == "test_tool"
+
+    reponse = requests.get(url)
+    reponse_data = reponse.json()
+    assert len(response_data["data"]) == 1
+
+    # tool
+
+
 def test_restful_api_with_request_limits(setup):
     model_name = "gte-base"
 

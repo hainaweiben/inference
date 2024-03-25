@@ -109,6 +109,8 @@ if VLLM_INSTALLED and vllm.__version__ >= "0.3.2":
 if VLLM_INSTALLED and vllm.__version__ >= "0.3.3":
     VLLM_SUPPORTED_CHAT_MODELS.append("orion-chat")
     VLLM_SUPPORTED_CHAT_MODELS.append("orion-chat-rag")
+    VLLM_SUPPORTED_CHAT_MODELS.append("orion-longchat")
+    VLLM_SUPPORTED_CHAT_MODELS.append("orion-chat-plugin")
 
 
 class VLLMModel(LLM):
